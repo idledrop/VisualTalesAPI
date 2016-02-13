@@ -8,7 +8,7 @@ David Fuka - [graveto](https://github.com/graveto)
 Vinicio Del Toro - [viniciodeltoro](https://github.com/viniciodeltoro)  
 Ted Martinez - [tedma4](https://github.com/tedma4)  
 Polo Santiago - [polosantiago](https://github.com/polosantiago)  
-Rene Martinez - [rmemtz](https://github.com/rmemtz)  
+Rene Martinez - [rnemtz](https://github.com/rnemtz)  
 Jake Danforth - [revspringjake](https://github.com/revspringjake)  
 
 ## Inspiration
