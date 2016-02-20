@@ -1,6 +1,7 @@
 class Api::StoriesController < ApiController
 
   def index
-    render :text => 'hello world'
+    stories = Story.all
+    render json: stories
   end
 end

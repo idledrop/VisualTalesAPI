@@ -7,6 +7,8 @@ Rails.application.routes.draw do
 
   namespace :api do
     resources :stories
+    resources :characters
+    resources :scenes
   end
 
    get '*path' => 'home#index'

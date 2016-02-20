@@ -5,8 +5,10 @@ describe Api::StoriesController do
     before do
       get :index
     end
-    context 'with params' do
-      it 'returns all stories'
+    context 'with no params' do
+      it 'returns all stories' do
+        expect(response.status).to eq 200
+      end
     end
   end
 
