@@ -23,7 +23,9 @@ class Api::StoriesController < ApiController
   end
 
   def update
-
+  	story = Story.find(params[:id])
+  	story.update_attributes!(params.permit(:title,:author,:description,:email))
+  	render json: story.to_json
   end
 
 end

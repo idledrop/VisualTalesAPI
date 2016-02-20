@@ -1,13 +1,18 @@
 require 'rails_helper'
 
 describe Api::StoriesController do
+  let(:story_1) { FactoryGirl.create(:story, title: 'the godfather') }
+  let(:story_2) { FactoryGirl.create(:story, title: 'star trek') }
+  let(:story_3) { FactoryGirl.create(:story, title: 'star wars') }
   describe 'GET #index' do
     before do
+      story_1;story_2;story_3
       get :index
     end
     context 'with no params' do
       it 'returns all stories' do
         expect(response.status).to eq 200
+        expect(JSON.parse(response.body).size).to eq 3
       end
     end
   end
@@ -79,6 +84,32 @@ describe Api::StoriesController do
         expect(JSON.parse(response.body).keys).to eq ["id", "title", "author", "email", "description", "created_at", "updated_at"]
         story = Story.where(title: "Story X #{seed}")
         expect(story).to be_present
+      end
+    end
+  end
+
+  describe 'PUT #update' do
+
+    let(:story_1) { FactoryGirl.create(:story) }
+    let(:updated_attributes) { {title: "title changed", author: 'author changed', email: 'changed@a.com', description: 'description changed'} }
+    before do
+      # Example:
+      # put /update 
+      # BODY {id: "1","title":"Story X ff0e3a61-3e53-437c-af00-d18674f68679","author":"Author X","email":"story@a.com","description":"Story description"} 
+      put :update, updated_attributes.merge(id: story_1.id)
+    end
+    context 'successful' do
+      it 'creates story' do
+        # Response example
+        # {"id":3,"title":"Story X 34674540-f608-4f0f-a2e6-7eec9d25b334","author":"Author X","email":"story@a.com","description":"Story description","created_at":"2016-02-20T19:11:43.072Z","updated_at":"2016-02-20T19:11:43.072Z\}
+        expect(response.status).to eq 200
+        story = JSON.parse(response.body)
+        story = updated_attributes
+        story_1.reload
+        expect(story_1.title).to eq updated_attributes[:title]
+        expect(story_1.email).to eq updated_attributes[:email]
+        expect(story_1.author).to eq updated_attributes[:author]
+        expect(story_1.description).to eq updated_attributes[:description]
       end
     end
   end
