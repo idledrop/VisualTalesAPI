@@ -1,0 +1,6 @@
+rvm:
+  - 2.2.1
+install:
+  - bundle install
+  - npm install
+  - npm run tsc

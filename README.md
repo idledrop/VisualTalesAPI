@@ -12,4 +12,14 @@ Rene Martinez - [rnemtz](https://github.com/rnemtz)
 Mark Davis - [mdavisJr](https://github.com/mdavisJr)  
 
 ## Inspiration
-Japanese developers have been creating vivid experiences using visual novels for what seems like forever now. It's a powerful way to tell stories that uses the readers imagination with visual effects that allows you to say more with less.
+Japanese developers have been creating vivid experiences using visual novels for what seems like forever now. It's a powerful way to tell stories that uses the readers imagination with visual effects that allows you to say more with less.j
+
+## Environment Setup
+bundle install
+
+## Application Setup
+npm install
+
+## Starting the application
+rails server
+npm run tsc:w
