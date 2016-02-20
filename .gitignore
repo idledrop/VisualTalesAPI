@@ -8,6 +8,7 @@
 /node_modules
 /typings
 /public/app/**/*.js
+/public/app/**/*.js.map
 /public/app/**/*.css
 
 # Ignore bundler config.
