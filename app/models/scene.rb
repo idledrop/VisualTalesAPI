@@ -3,4 +3,6 @@ class Scene < ActiveRecord::Base
   has_many :events
   has_many :poses, :through => :events
   has_many :characters, -> { uniq }, :through => :poses
+
+  mount_uploader :background, BackgroundUploader
 end

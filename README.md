@@ -17,6 +17,9 @@ Japanese developers have been creating vivid experiences using visual novels for
 ## Environment Setup
 bundle install
 
+Install ImageMagick
+$ brew install imagemagick
+
 ## Application Setup
 npm install
 
