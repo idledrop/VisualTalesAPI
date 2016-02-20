@@ -1,4 +1,4 @@
-<header>
+<header class="primary-background">
   <nav class="navbar navbar-default col-sm-12 col-md-10 col-md-offset-1">
     <div class="nav-bar-header">
       <a [routerLink]="['Home']" class="navbar-brand md-display-2">Visual Tales</a> 
@@ -10,7 +10,9 @@
     </div>
   </nav>
 </header>
-<router-outlet></router-outlet>
-<footer class="navbar col-sm-12">
+<div class="col-sm-12 col-md-10 col-md-offset-1">
+    <router-outlet></router-outlet>
+</div> 
+<footer class="primary-background col-sm-12">
   <div class="col-sm-12 col-md-10 col-md-offset-1">&copy; 2016 Idle Drop</div>
 </footer>
