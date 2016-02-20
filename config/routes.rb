@@ -7,6 +7,10 @@ Rails.application.routes.draw do
 
   namespace :api do
     resources :stories do
+      collection do
+        get :search
+      end
+      
       resources :tags, controller: :story_tags
     end
     resources :tags do
