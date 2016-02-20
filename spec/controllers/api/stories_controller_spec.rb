@@ -12,4 +12,18 @@ describe Api::StoriesController do
     end
   end
 
+  describe 'POST #create' do
+    let(:seed) { SecureRandom.uuid }
+    before do
+      post :create, {title: "Story X #{seed}", author: 'Author X', email: 'story@a.com', description: 'Story description'}
+    end
+    context 'ok' do
+      it 'returns all stories' do
+        expect(response.status).to eq 200
+        story = Story.where(title: "Story X #{seed}")
+        expect(story).to be_present
+      end
+    end
+  end
+
 end
