@@ -24,5 +24,5 @@ $ brew install imagemagick
 npm install
 
 ## Starting the application
-rails server
-npm run tsc:w
+rails server  
+gulp
