@@ -9,4 +9,5 @@ describe Api::StoriesController do
       it 'returns all stories'
     end
   end
+
 end
