@@ -5,4 +5,9 @@ class Api::TagsController < ApiController
     render json: tags
   end
 
+  def search
+    tags = Tag.where("name LIKE :query", query: "%#{params[:query]}%")
+    render json: tags
+  end
+
 end

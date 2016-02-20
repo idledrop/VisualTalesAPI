@@ -9,7 +9,11 @@ Rails.application.routes.draw do
     resources :stories do
       resources :tags, controller: :story_tags
     end
-    resources :tags
+    resources :tags do
+      collection do
+        get :search
+      end
+    end
     resources :characters
     resources :scenes
   end

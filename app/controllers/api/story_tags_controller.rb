@@ -1,14 +1,15 @@
 class Api::StoryTagsController < ApiController
 
   def create
-  	story = Story.find(params[:story_id])
-  	created_story_tags = []
-  	ActiveRecord::Base.transaction do
-  		created_story_tags = params[:tags].map do |tag|
-  			story.story_tags.create!(tag_id: tag[:tag_id])
-  		end
-		end
-  	render json: created_story_tags.to_json
+  	story_tag = StoryTag.new(story_id: params[:story_id],tag_id: params[:tag_id])
+    story_tag.save!
+  	render json: story_tag.to_json
+  end
+
+  def destroy
+    story_tag = StoryTag.find(params[:id])
+    story_tag.destroy!
+    render status: :no_content, json: nil
   end
 
 end
