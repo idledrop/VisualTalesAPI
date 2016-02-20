@@ -6,7 +6,9 @@ Rails.application.routes.draw do
    root 'home#index'
 
   namespace :api do
-    resources :stories
+    resources :stories do
+      resources :tags, controller: :story_tags
+    end
     resources :characters
     resources :scenes
   end
