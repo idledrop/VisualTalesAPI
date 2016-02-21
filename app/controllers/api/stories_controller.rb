@@ -28,4 +28,33 @@ class Api::StoriesController < ApiController
   	render json: story.to_json
   end
 
+  def tags
+    render json: Story.find(params[:id]).tags.to_json
+  end
+
+  def tag
+
+    if !!(params.require(:tag) =~ /\A[-+]?[0-9]+\z/) # is a number?
+      tag_id = params[:tag_id]
+    else 
+      if existing_tag = Tag.where(name: params[:tag]).first
+        tag_id = existing_tag.id
+      else
+        new_tag = Tag.new(name: params[:tag].downcase.gsub(/\s+/, ""))
+        tag_id = new_tag.id
+      end
+    end
+
+    story_tag = StoryTag.new(story_id: params[:id],tag_id: tag_id)
+    story_tag.save!
+    
+    render json: story_tag.to_json
+  end
+
+  def destroy_tag
+    story_tag = Story.find(params[:id]).story_tags.where(tag_id: params[:tag_id]).first
+    story_tag.destroy!
+    render status: :no_content, json: nil
+  end
+
 end

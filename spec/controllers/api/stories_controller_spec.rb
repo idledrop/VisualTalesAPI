@@ -114,4 +114,100 @@ describe Api::StoriesController do
     end
   end
 
+  describe 'GET #tags' do
+    let(:story) { FactoryGirl.create(:story) }
+    let(:tag_1) { FactoryGirl.create(:tag, name: 'horror') }
+    let(:tag_2) { FactoryGirl.create(:tag, name: 'comedy') }
+    let(:story_tag_1) { FactoryGirl.create(:story_tag, story_id: story.id, tag_id: tag_1.id) }
+    let(:story_tag_2) { FactoryGirl.create(:story_tag, story_id: story.id, tag_id: tag_2.id) }
+    before do
+      story_tag_1;story_tag_2
+      # Example:
+      # get /stories/1/tags/ 
+      get :tags, id: story.id
+    end
+    context 'successful' do
+      it 'creates story tag' do
+        # Response example
+        # [{"id":16,"story_id":31,"tag_id":45,"created_at":"2016-02-20T20:13:02.772Z","updated_at":"2016-02-20T20:13:02.772Z"}]
+        expect(response.status).to eq 200
+        expect(JSON.parse(response.body).first.keys).to eq ["id","name","created_at","updated_at"] 
+        expect(JSON.parse(response.body).size).to eq 2
+        expect(JSON.parse(response.body).map{|t| t['name']}).to eq ['horror','comedy']
+      end
+    end
+  end
+
+  describe 'POST #tag' do
+    let(:story) { FactoryGirl.create(:story) }
+    let(:tag_1) { FactoryGirl.create(:tag, name: 'alreadyexisting') }
+  
+    context 'by numeric identifyer' do
+      before do
+        # Example:
+        # POST /stories/1/tag/ 
+        # BODY {"tag": 2}
+        post :tag, id: story.id, tag: tag_1.id
+      end
+      it 'creates story tag by using id' do
+        # Response example
+        # {"id":16,"story_id":31,"tag_id":45,"created_at":"2016-02-20T20:13:02.772Z","updated_at":"2016-02-20T20:13:02.772Z"}
+        expect(response.status).to eq 200
+        expect(JSON.parse(response.body).keys).to eq ["id","story_id","tag_id","created_at","updated_at"] 
+        expect(story.story_tags.reload.size).to eq 1
+      end
+    end
+    context 'by tag text name - non existing' do
+      before do
+        # Example:
+        # POST /stories/1/tag/ 
+        # BODY {"tag": nonexistingtag}
+        post :tag, id: story.id, tag: 'nonexistingtag'
+      end
+      it 'creates story tag and tag using name' do
+        # Response example
+        # {"id":16,"story_id":31,"tag_id":45,"created_at":"2016-02-20T20:13:02.772Z","updated_at":"2016-02-20T20:13:02.772Z"}
+        expect(response.status).to eq 200
+        expect(JSON.parse(response.body).keys).to eq ["id","story_id","tag_id","created_at","updated_at"] 
+        expect(story.story_tags.reload.size).to eq 1
+      end
+    end
+    context 'by tag text name - existing' do
+      before do
+        tag_1
+        # Example:
+        # POST /stories/1/tag/ 
+        # BODY {"tag": "alreadyexisting"}
+        post :tag, id: story.id, tag: 'alreadyexisting'
+      end
+      it 'creates story tag by finding existing tag by name' do
+        # Response example
+        # {"id":16,"story_id":31,"tag_id":45,"created_at":"2016-02-20T20:13:02.772Z","updated_at":"2016-02-20T20:13:02.772Z"}
+        expect(response.status).to eq 200
+        expect(JSON.parse(response.body).keys).to eq ["id","story_id","tag_id","created_at","updated_at"] 
+        expect(story.story_tags.reload.size).to eq 1
+        expect(story.story_tags.reload.first.tag.name).to eq 'alreadyexisting'
+      end
+    end
+  end
+
+  describe 'DELETE #destroy_tag' do
+    let(:story) { FactoryGirl.create(:story) }
+    let(:tag_1) { FactoryGirl.create(:tag, name: 'horror') }
+    let(:story_tag_1) { FactoryGirl.create(:story_tag, story_id: story.id, tag_id: tag_1.id) }
+    before do
+      # Example:
+      # DELETE /stories/1/tag/1
+      story_tag_1
+      expect(story.story_tags.size).to eq 1
+      delete :destroy_tag, id: story.id, tag_id: story_tag_1.tag_id
+    end
+    context 'successful' do
+      it 'creates story tag' do
+        expect(response.status).to eq 204 # no content
+        expect(story.story_tags.reload.size).to eq 0
+      end
+    end
+  end
+
 end

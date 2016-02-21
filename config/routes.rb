@@ -10,8 +10,11 @@ Rails.application.routes.draw do
       collection do
         get :search
       end
-      
-      resources :tags, controller: :story_tags
+      member do
+        get :tags
+        post :tag
+        delete 'destroy_tag/:tag_id/', action: :destroy_tag
+      end
     end
     resources :tags do
       collection do
