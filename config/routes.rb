@@ -7,9 +7,6 @@ Rails.application.routes.draw do
 
   namespace :api do
     resources :stories do
-      collection do
-        get :search
-      end
       member do
         get :tags
         post :tag
