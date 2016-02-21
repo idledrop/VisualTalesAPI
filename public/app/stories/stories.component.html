@@ -1,2 +1,9 @@
 <h1 class="page-header">Stories</h1>
-<input type="text" class="form-control">
+<form>
+  <input type="text" class="form-control" [ngFormControl]="titleControl" [(ngModel)]="title">
+  <a *ngIf="title" class="button">Create Story</a>
+</form>
+<div class="alert alert-danger" *ngIf="error">{{error}}</div>
+<ul>
+  <li *ngFor="#story of shownStories | async">{{story.title}}</li>
+</ul>
