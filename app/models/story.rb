@@ -1,10 +1,13 @@
 class Story < ActiveRecord::Base
-  validates :author, presence: true
-  validates :title, presence: true
-  validates_format_of :email, :with => /.+@.+\..+/i
-
-  has_many :characters
-  has_many :story_tags
+  has_many :characters, dependent: :destroy
+  has_many :story_tags, dependent: :destroy
   has_many :tags, :through => :story_tags
-  has_many :scenes
+  has_many :scenes, dependent: :destroy
+
+  validates :author, presence: true, length: { maximum: 255 }
+  validates :title, presence: true, length: { maximum: 255 }
+  validates_format_of :email, :with => /.+@.+\..+/i
+  validates :email, length: { maximum: 255 }
+
+
 end
