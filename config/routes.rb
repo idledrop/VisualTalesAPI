@@ -6,25 +6,25 @@ Rails.application.routes.draw do
    root 'home#index'
 
   namespace :api do
-    resources :stories do
-      member do
-        get :tags
-        post :tag
-        delete 'destroy_tag/:tag_id/', action: :destroy_tag
-      end
-      resources :characters do
-        resources :poses do
-        end
-      end
+    resources :stories, except: [:new, :edit] do
+      resources :tags, only: [:create, :index, :delete]
+      resources :characters, only: [:index, :create]
     end
-    resources :tags do
+    resources :tags, except: [:update, :show, :new, :edit] do
       collection do
         get :search
       end
+      resources :stories, only: [:index]
     end
-    resources :characters
-    resources :scenes
+    resources :characters, only: [:update, :show, :destroy] do
+      resources :poses, only: [:index, :create]
+    end
+    resources :poses, only: [:update, :destroy]
+    resources :scenes do
+      resources :events, only: [:index]
+    end
   end
+
 
    get '*path' => 'home#index'
 
@@ -77,3 +77,5 @@ Rails.application.routes.draw do
   #     resources :products
   #   end
 end
+
+
