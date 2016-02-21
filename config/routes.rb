@@ -12,9 +12,6 @@ Rails.application.routes.draw do
       resources :scenes, only: [:index, :create]
     end
     resources :tags, except: [:update, :show, :new, :edit] do
-      collection do
-        get :search
-      end
       resources :stories, only: [:index]
     end
     resources :characters, only: [:update, :show, :destroy] do
@@ -24,6 +21,7 @@ Rails.application.routes.draw do
     resources :scenes, only: [:update, :destroy] do
       resources :events, only: [:index, :create]
     end
+    resources :events, only: [:update, :destroy]
   end
 
 
