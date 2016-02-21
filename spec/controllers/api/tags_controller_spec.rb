@@ -129,7 +129,7 @@ describe Api::TagsController do
         tag_1
         # Example:
         # POST /stories/1/tag/
-        # BODY {"tag": "alreadyexisting"}
+        # BODY {"name": "alreadyexisting"}
         post :create, story_id: story.id, name: "alreadyexisting"
       end
       it 'creates story tag by finding existing tag by name' do

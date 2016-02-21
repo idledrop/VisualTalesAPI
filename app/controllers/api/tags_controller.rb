@@ -5,7 +5,7 @@ class Api::TagsController < ApiController
         tags = Story.find(params[:story_id]).tags
     else
       if params[:query].present?
-        tags = Tag.where("name LIKE :query", query: "%#{params[:query]}%")
+        tags = Tag.where("name LIKE :query", query: "%#{params[:query].downcase.gsub(/\s+/, "")}%")
       else
         tags = Tag.all
       end

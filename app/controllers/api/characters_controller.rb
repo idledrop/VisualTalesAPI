@@ -1,33 +1,38 @@
 class Api::CharactersController < ApiController
+
+  before_action :fetch_story, only: [:index, :create]
+  before_action :fetch_character, only: [:show]
 	
 	def index
-		story = Story.find(params[:story_id])
-		render json: story.characters.all.to_json
+		characters = @story.characters
+
+		unless characters.empty?
+			render json: characters
+		else
+			render nothing: true, status: :no_content
+		end
 	end
 
 	def show
-		story = Story.find(params[:story_id])
-		render json: story.characters.find(params[:id]).to_json
+		render json: @character.as_json(only:[:id, :name, :description, :portrait, :story_id, :created_at, :updated_at],
+																		include: { poses: { only: [:id, :name, :image]}
+																							}
+																		)
 	end
 
 	def create
-		if params[:story_id]
-			story = Story.find(params[:story_id])
-			character = story.characters.new(params.permit(:name,:description,:portrait))
+			character = @story.characters.new(params.permit(:name,:description,:portrait))
 			if character.save
 				render json: character.to_json, status: :created, location: api_character_url(character)
 			else
 				render json: character.errors, status: :unprocessable_entity
 			end
-		else
-			render json: {story_id: 'must be included in url'}.to_json, status: :unprocessable_entity
-		end
   end
 
   def update
   	character = Character.find(params[:id])
   	if character.update_attributes!(params.permit(:name,:description,:portrait))
-  		render json: character.to_json
+  		render json: character.to_json, status: :accepted
 		else
 			render character.errors, status: :unprocessable_entity
 		end
@@ -38,5 +43,16 @@ class Api::CharactersController < ApiController
     character.destroy!
     render status: :no_content, json: nil
 	end
+
+	private
+
+	def fetch_story
+		@story = Story.find(params[:story_id])
+	end
+
+  def fetch_character
+		@character = Character.find(params[:id])
+	end
+
 
 end

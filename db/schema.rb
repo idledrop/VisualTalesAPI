@@ -11,11 +11,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160220105121) do
+ActiveRecord::Schema.define(version: 20160221190427) do
 
   create_table "characters", force: :cascade do |t|
     t.string   "name"
-    t.string   "description"
+    t.text     "description"
     t.string   "portrait"
     t.integer  "story_id"
     t.datetime "created_at",  null: false
@@ -26,13 +26,13 @@ ActiveRecord::Schema.define(version: 20160220105121) do
 
   create_table "events", force: :cascade do |t|
     t.integer  "pose_id"
-    t.integer  "position_x"
-    t.integer  "position_y"
+    t.integer  "position_x", default: 0
+    t.integer  "position_y", default: 0
     t.text     "script"
     t.integer  "scene_id"
-    t.integer  "order"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.integer  "order",      default: 0
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
   end
 
   add_index "events", ["pose_id"], name: "index_events_on_pose_id"
@@ -50,12 +50,12 @@ ActiveRecord::Schema.define(version: 20160220105121) do
 
   create_table "scenes", force: :cascade do |t|
     t.string   "name"
-    t.string   "description"
+    t.text     "description"
     t.string   "background"
     t.integer  "story_id"
-    t.integer  "order"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
+    t.integer  "order",       default: 0
+    t.datetime "created_at",              null: false
+    t.datetime "updated_at",              null: false
   end
 
   add_index "scenes", ["story_id"], name: "index_scenes_on_story_id"
@@ -64,7 +64,7 @@ ActiveRecord::Schema.define(version: 20160220105121) do
     t.string   "title"
     t.string   "author"
     t.string   "email"
-    t.string   "description"
+    t.text     "description"
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
   end
