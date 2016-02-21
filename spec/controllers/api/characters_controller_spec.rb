@@ -48,7 +48,7 @@ describe Api::CharactersController do
     end
     context 'successful' do
       it 'creates details' do
-        expect(response.status).to eq 200
+        expect(response.status).to eq 201
         expect(JSON.parse(response.body).keys).to eq  ["id", "name", "description", "portrait", "story_id", "created_at", "updated_at"]
       	c = Character.find(JSON.parse(response.body)['id'])
       	c.name = attributes[:name]

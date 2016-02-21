@@ -11,19 +11,30 @@ class Api::CharactersController < ApiController
 	end
 
 	def create
-  	character = Character.new(params.permit(:name,:description,:portrait))
-  	character.save!
-  	render json: character.to_json
+		if params[:story_id]
+			story = Story.find(params[:story_id])
+			character = story.characters.new(params.permit(:name,:description,:portrait))
+			if character.save
+				render json: character.to_json, status: :created, location: api_character_url(character)
+			else
+				render json: character.errors, status: :unprocessable_entity
+			end
+		else
+			render json: {story_id: 'must be included in url'}.to_json, status: :unprocessable_entity
+		end
   end
 
   def update
-  	character = Character.where(id: params[:id],story_id: params[:story_id]).first
-  	character.update_attributes!(params.permit(:name,:description,:portrait))
-  	render json: character.to_json
+  	character = Character.find(params[:id])
+  	if character.update_attributes!(params.permit(:name,:description,:portrait))
+  		render json: character.to_json
+		else
+			render character.errors, status: :unprocessable_entity
+		end
   end
 
 	def destroy
-		character = Character.where(id: params[:id],story_id: params[:story_id]).first
+		character = Character.find_by_id(params[:id])
     character.destroy!
     render status: :no_content, json: nil
 	end

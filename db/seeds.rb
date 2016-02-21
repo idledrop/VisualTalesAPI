@@ -30,3 +30,30 @@ backyard.events.create(pose:jigsaw_angry, position_x: 20, position_y: 20, script
 backyard.events.create(pose:sitter_afraid, position_x: 20, position_y: 20, script: 'Ahhh! (runs away)', order: 2)
 backyard.events.create(pose:jigsaw_violent, position_x: 20, position_y: 20, script: 'How do you like my knife!', order: 3)
 backyard.events.create(pose:sitter_dying, position_x: 20, position_y: 20, script: '(blood gurgles)', order: 4)
+
+
+
+story = Story.create({title: 'The story of a girl', author: 'Jon', email: 'josh@jon.com', description: 'cried a river and drown the whole world.'})
+
+girl = Character.create({name: 'The Girl', description: 'a sad girl', portrait: 'file/path', story: story})
+guy = Character.create({name: "The Guy", description: "a nice guy", portrait: "file/path", story: story})
+
+girl_crying = Pose.create({name:'Crying', image:'/path', character: girl})
+girl_happy = Pose.create({name:'Happy', image:'/path', character: girl})
+
+guy_scared = Pose.create({name:'Scared', image:'/path', character: guy})
+guy_happy = Pose.create({name:'happy', image:'/path', character: guy})
+
+story.tags.create({name: 'drama'})
+story.tags.create({name: 'love'})
+story.tags.create({name: 'music video'})
+
+house = story.scenes.create({name:'House', description:'studio apartment', background: 'image/path', order: 1})
+bar = story.scenes.create({name:'A bar', description:'dark bar', background: 'image/path', order: 2})
+
+house.events.create(pose:girl_crying, position_x: 20, position_y: 20, script: 'is living there', order:1)
+house.events.create(pose:girl_crying, position_x: 20, position_y: 20, script: '(singing) this is the story...', order:2)
+house.events.create(pose:guy_scared, position_x: 20, position_y: 20, script: '(looks at photograph)', order:2)
+
+bar.events.create(pose:girl_happy, position_x: 20, position_y: 20, script: 'I love drunk', order: 1)
+bar.events.create(pose:guy_happy, position_x: 20, position_y: 20, script: 'Ahhh! I absolutely love her.', order: 2)

@@ -1,19 +1,18 @@
 class Api::PosesController < ApiController
 
-	def index
-		character = Character.where(story_id: params[:story_id],id: params[:character_id]).first
-		render json: character.poses.all.to_json
-	end
+  before_action :fetch_character, :only => [:index, :create]
 
-	def show
-		character = Character.where(story_id: params[:story_id],id: params[:character_id]).first
-		render json: character.poses.find(params[:id]).to_json
+	def index
+		render json: @character.poses
 	end
 
 	def create
-  	pose = Pose.new(params.permit(:character_id,:name,:image))
-  	pose.save!
-  	render json: pose.to_json
+		pose = @character.poses.new(params.permit(:character_id,:name,:image))
+  	if pose.save
+			render json: pose
+		else
+			render json:pose.errors, status: :unprocessable_entity
+		end
   end
 
   def update
@@ -29,5 +28,10 @@ class Api::PosesController < ApiController
 		pose.destroy!
     render status: :no_content, json: nil
 	end
-	
+
+  private
+
+  def fetch_character
+  	@character = Character.find(params[:character_id])
+  end
 end
