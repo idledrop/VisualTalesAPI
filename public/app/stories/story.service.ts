@@ -1,5 +1,6 @@
 import {Injectable} from 'angular2/core';
 import {Http, URLSearchParams} from 'angular2/http';
+
 import {Observable} from 'rxjs/Observable';
 
 @Injectable()
@@ -14,16 +15,28 @@ export class StoryService {
                 .catch(this.logError);
   }
 
-  getStories({title='', tag_ids=[], page=1, page_size=20}){
-    let params:URLSearchParams = new URLSearchParams();
-    params.set('title', title);
-    params.set('tag_ids', tag_ids.join(','));
-    params.set('page', page.toString());
-    params.set('page_size', page_size.toString());
+  getStories(searchParams:Object){
+    let params:URLSearchParams = this.getStoryParams(searchParams);
       
-    return this._http.get(this._storiesUrl)
+    return this._http.get(this._storiesUrl, {search:params})
                .map(res => <IStory[]> res.json())
                .catch(this.logError);    
+  }
+  
+  private getStoryParams({title='', tag_ids=[], page=1, page_size=20}):URLSearchParams{
+    let searchParams:URLSearchParams = new URLSearchParams();
+    if(title.length > 0){
+      searchParams.set('title', title);
+    }
+        
+    if(tag_ids.length > 0){
+      searchParams.set('tag_ids', tag_ids.join(','));    
+    }
+    
+    searchParams.set('page', page.toString());
+    searchParams.set('page_size', page_size.toString());
+    
+    return searchParams;
   }
   
   createStory(story:IStory){
