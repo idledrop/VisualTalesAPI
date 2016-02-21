@@ -1,4 +1,10 @@
 import {bootstrap} from 'angular2/platform/browser';
+import {HTTP_PROVIDERS} from 'angular2/http';
+import {ROUTER_PROVIDERS} from 'angular2/router';
+
+import 'rxjs/Rx';
+
+import {StoryService} from './stories/stories';
 import {VisualTalesAppComponent} from './visual-tales-app.component';
 
-bootstrap(VisualTalesAppComponent);
+bootstrap(VisualTalesAppComponent, [HTTP_PROVIDERS, ROUTER_PROVIDERS, StoryService]);

@@ -1,6 +1,6 @@
 import {Component, OnInit} from 'angular2/core';
 
-import {StoryService} from './stories';
+import {StoryService, IStory} from './stories';
 
 @Component({
   selector: 'stories',
@@ -8,8 +8,15 @@ import {StoryService} from './stories';
 })
 
 export class StoriesComponent implements OnInit {
-
-  constructor() { }
-
-  ngOnInit() { }
+  constructor(private _storyService:StoryService) { }
+  
+  shownStories:IStory[];
+  
+  ngOnInit() {
+    this._storyService.getStories({})
+        .subscribe(
+          stories => this.shownStories = stories,
+          error => alert('unable to retrieve stories')
+        );
+  }
 }
