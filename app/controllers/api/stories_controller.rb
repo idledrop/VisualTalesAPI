@@ -1,6 +1,9 @@
 class Api::StoriesController < ApiController
 
   def index
+    page_size = params[:page_size] || 25
+    page =     params[:page] || 1
+
     if params.except(*request.path_parameters.keys).empty?
        stories = Story.all
     else
@@ -13,7 +16,7 @@ class Api::StoriesController < ApiController
       end
     end
    
-    render json: stories
+    render json: stories.page(page).per(page_size)
   end
 
   def create

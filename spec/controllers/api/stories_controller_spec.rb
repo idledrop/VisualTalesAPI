@@ -1,20 +1,34 @@
 require 'rails_helper'
 
 describe Api::StoriesController do
-  let(:story_1) { FactoryGirl.create(:story, title: 'the godfather') }
-  let(:story_2) { FactoryGirl.create(:story, title: 'star trek') }
-  let(:story_3) { FactoryGirl.create(:story, title: 'star wars') }
   describe 'GET #index' do
-    before do
-      story_1;story_2;story_3
-      get :index
-    end
     context 'with no params' do
+      before do
+        10.times do |i|
+          FactoryGirl.create(:story, title: "movie #{i}")
+        end
+        get :index
+      end
       it 'returns all stories' do
         expect(response.status).to eq 200
-        expect(JSON.parse(response.body).size).to eq 3
+        expect(JSON.parse(response.body).size).to eq 10
       end
     end
+
+    context 'with pagination params' do
+      before do
+        20.times do |i|
+          FactoryGirl.create(:story, title: "movie #{i}")
+        end
+        get :index, page_size: 10, page: 1
+      end
+      it 'returns page size' do
+        expect(response.status).to eq 200
+        expect(JSON.parse(response.body).size).to eq 10
+        expect(JSON.parse(response.body).last['title']).to eq 'movie 9'
+      end
+    end
+
     context 'with search parameters' do
       let(:story_1) { FactoryGirl.create(:story, title: 'the godfather') }
       let(:story_2) { FactoryGirl.create(:story, title: 'star trek') }
