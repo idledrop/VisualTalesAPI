@@ -1,8 +1,15 @@
+header{
+  overflow:hidden;
+  
+  .navbar{
+    margin-bottom:0;
+  }
+}
+
 footer{
+  color:white;
   position:absolute;
-  min-height:auto;
   bottom:0;
-  margin-bottom:0;
   
   div{
     padding:0.5em 0;
