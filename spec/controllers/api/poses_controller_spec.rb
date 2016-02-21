@@ -42,7 +42,7 @@ describe Api::PosesController do
   describe 'POST #create' do
     let(:story) { FactoryGirl.create(:story) }
   	let(:character) { FactoryGirl.create(:character,story_id: story.id) }
-  	let(:attributes) { {name: 'whater white', image: 'image', character_id: character.id} }
+  	let(:attributes) { {name: 'whater white', image: fixture_file_upload('images/bob.jpg', 'image/jpg'), character_id: character.id} }
   	before do
       # Example:
       # POST /stories/1/characters/1/poses/
@@ -52,10 +52,11 @@ describe Api::PosesController do
       it 'creates details' do
         expect(response.status).to eq 200
         expect(JSON.parse(response.body).keys).to eq  ["id", "name", "image", "character_id", "created_at", "updated_at"]
-      	c = Pose.find(JSON.parse(response.body)['id'])
-      	c.name = attributes[:name]
-      	c.image = attributes[:image]
-      	c.character_id = attributes[:character_id]
+      	p = Pose.find(JSON.parse(response.body)['id'])
+      	expect(p.name).to eq attributes[:name]
+      	expect(p.character_id).to eq attributes[:character_id]
+      	expect(p.image.class).to eq PoseUploader
+        expect(p.image.url.present?).to be_truthy
       end
     end
   end
@@ -64,7 +65,7 @@ describe Api::PosesController do
  		let(:story) { FactoryGirl.create(:story) }
   	let(:character) { FactoryGirl.create(:character,story_id: story.id) }
     let(:pose) { FactoryGirl.create(:pose,character_id: character.id) }
-    let(:updated_attributes) { {name: 'name x', image: 'image x'} }
+    let(:updated_attributes) { {name: 'name x', image: fixture_file_upload('images/bob.jpg', 'image/jpg')} }
     before do
       # Example:
       # put /stories/storyid/characters/id/1

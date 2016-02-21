@@ -39,7 +39,7 @@ describe Api::CharactersController do
 
   describe 'POST #create' do
   	let(:story) { FactoryGirl.create(:story) }
-  	let(:attributes) { {name: 'whater white', description: 'description', portrait: 'portrait', story_id: story.id} }
+  	let(:attributes) { {name: 'whater white', description: 'description', portrait: fixture_file_upload('images/bob.jpg', 'image/jpg')} }
   	before do
       # Example:
       # POST /stories/1/characters/
@@ -51,10 +51,11 @@ describe Api::CharactersController do
         expect(response.status).to eq 200
         expect(JSON.parse(response.body).keys).to eq  ["id", "name", "description", "portrait", "story_id", "created_at", "updated_at"]
       	c = Character.find(JSON.parse(response.body)['id'])
-      	c.name = attributes[:name]
-      	c.description = attributes[:description]
-      	c.portrait = attributes[:portrait]
-      	c.story_id = attributes[:story_id]
+      	expect(c.name).to eq attributes[:name]
+        expect(c.description).to eq attributes[:description]
+      	expect(c.story_id).to eq attributes[:story_id]
+        expect(c.portrait.class).to eq PortraitUploader
+        expect(c.portrait.url.present?).to be_truthy
       end
     end
   end
@@ -63,7 +64,7 @@ describe Api::CharactersController do
 
     let(:story) { FactoryGirl.create(:story) }
     let(:character) { FactoryGirl.create(:character,story_id: story.id) }
-    let(:updated_attributes) { {name: 'whater white', description: 'description', portrait: 'portrait'} }
+    let(:updated_attributes) { {name: 'whater white', description: 'description', portrait: fixture_file_upload('images/bob.jpg', 'image/jpg')} }
     before do
       # Example:
       # put /stories/storyid/characters/id

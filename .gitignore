@@ -13,6 +13,7 @@
 /public/app/**/*.js
 /public/app/**/*.js.map
 /public/app/**/*.css
+/public/uploads/
 
 # Ignore bundler config.
 /.bundle
