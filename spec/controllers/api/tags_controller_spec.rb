@@ -33,7 +33,7 @@ describe Api::TagsController do
       tag_3
       # Example:
       # GET /tags?query=comedy
-      get :search, query: 'comedy'
+      get :index, query: 'comedy'
     end
     context 'successful' do
       it 'gets list of tags' do

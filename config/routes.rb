@@ -19,7 +19,7 @@ Rails.application.routes.draw do
     resources :characters, only: [:update, :show, :destroy] do
       resources :poses, only: [:index, :create]
     end
-    resources :poses, only: [:update, :delete]
+    resources :poses, only: [:update, :destroy]
     resources :scenes do
       resources :events, only: [:index]
     end

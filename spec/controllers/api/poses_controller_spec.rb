@@ -11,7 +11,7 @@ describe Api::PosesController do
       end
       # Example:
       # GET /stories/1/characters/1/poses
-      get :index, story_id: story.id, character_id: character.id
+      get :index, character_id: character.id
     end
     context 'successful' do
       it 'gets list' do
@@ -22,22 +22,6 @@ describe Api::PosesController do
     end
   end
 
-  describe 'GET #show' do
-  	let(:story) { FactoryGirl.create(:story) }
-  	let(:character) { FactoryGirl.create(:character,story_id: story.id) }
-  	let(:pose) { FactoryGirl.create(:pose, name: "Character x", image: 'image', character_id: character.id)}
-    before do
-      # Example:
-      # GET /stories/1/characters/1/poses/1
-      get :show, story_id: story.id, character_id: character.id, id: pose.id
-    end
-    context 'successful' do
-      it 'gets details' do
-        expect(response.status).to eq 200
-        expect(JSON.parse(response.body).keys).to eq  ["id", "name", "image", "character_id", "created_at", "updated_at"]
-      end
-    end
-  end
 
   describe 'POST #create' do
     let(:story) { FactoryGirl.create(:story) }
@@ -50,7 +34,7 @@ describe Api::PosesController do
     end
     context 'successful' do
       it 'creates details' do
-        expect(response.status).to eq 200
+        expect(response.status).to eq 201
         expect(JSON.parse(response.body).keys).to eq  ["id", "name", "image", "character_id", "created_at", "updated_at"]
       	c = Pose.find(JSON.parse(response.body)['id'])
       	c.name = attributes[:name]
@@ -92,7 +76,7 @@ describe Api::PosesController do
       # put /stories/storyid/characters/id/pose/1
       pose
       expect(character.poses.size).to eq 1
-      delete :destroy, story_id: story.id, character_id: character.id, id: pose.id
+      delete :destroy, id: pose.id
     end
     context 'successful' do
       it 'deletes' do
