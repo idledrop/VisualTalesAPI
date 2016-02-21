@@ -20,7 +20,7 @@ class Api::StoriesController < ApiController
   end
 
   def create
-  	@story = Story.new(params.permit(Story.column_names))
+  	@story = Story.new(params.permit(:title,:author,:email,:description))
   	@story.save!
   	render json: @story.to_json
   end

@@ -12,6 +12,10 @@ Rails.application.routes.draw do
         post :tag
         delete 'destroy_tag/:tag_id/', action: :destroy_tag
       end
+      resources :characters do
+        resources :poses do
+        end
+      end
     end
     resources :tags do
       collection do

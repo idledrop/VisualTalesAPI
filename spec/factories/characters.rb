@@ -1,7 +1,7 @@
 FactoryGirl.define do
   factory :character do
-    name ""
-    description ""
+    name "The name"
+    description "The description"
     portrait ""
     story nil
   end

@@ -106,12 +106,12 @@ describe Api::StoriesController do
     let(:updated_attributes) { {title: "title changed", author: 'author changed', email: 'changed@a.com', description: 'description changed'} }
     before do
       # Example:
-      # put /update 
+      # put /stories/:id 
       # BODY {id: "1","title":"Story X ff0e3a61-3e53-437c-af00-d18674f68679","author":"Author X","email":"story@a.com","description":"Story description"} 
       put :update, updated_attributes.merge(id: story_1.id)
     end
     context 'successful' do
-      it 'creates story' do
+      it 'updates story' do
         # Response example
         # {"id":3,"title":"Story X 34674540-f608-4f0f-a2e6-7eec9d25b334","author":"Author X","email":"story@a.com","description":"Story description","created_at":"2016-02-20T19:11:43.072Z","updated_at":"2016-02-20T19:11:43.072Z\}
         expect(response.status).to eq 200
@@ -215,7 +215,7 @@ describe Api::StoriesController do
       delete :destroy_tag, id: story.id, tag_id: story_tag_1.tag_id
     end
     context 'successful' do
-      it 'creates story tag' do
+      it 'deletes story tag' do
         expect(response.status).to eq 204 # no content
         expect(story.story_tags.reload.size).to eq 0
       end
