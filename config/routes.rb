@@ -9,6 +9,7 @@ Rails.application.routes.draw do
     resources :stories, except: [:new, :edit] do
       resources :tags, only: [:create, :index, :delete]
       resources :characters, only: [:index, :create]
+      resources :scenes, only: [:index, :create]
     end
     resources :tags, except: [:update, :show, :new, :edit] do
       collection do
@@ -20,8 +21,8 @@ Rails.application.routes.draw do
       resources :poses, only: [:index, :create]
     end
     resources :poses, only: [:update, :destroy]
-    resources :scenes do
-      resources :events, only: [:index]
+    resources :scenes, only: [:update, :destroy] do
+      resources :events, only: [:index, :create]
     end
   end
 

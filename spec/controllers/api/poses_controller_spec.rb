@@ -22,7 +22,6 @@ describe Api::PosesController do
     end
   end
 
-
   describe 'POST #create' do
     let(:story) { FactoryGirl.create(:story) }
   	let(:character) { FactoryGirl.create(:character,story_id: story.id) }
