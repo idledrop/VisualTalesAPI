@@ -1,19 +1,19 @@
 class Api::StoriesController < ApiController
 
   def index
-    stories = Story.all
+    if params.except(*request.path_parameters.keys).empty?
+       stories = Story.all
+    else
+      stories = Story
+      if params[:title].present?
+        stories = stories.where("title LIKE :query", query: "%#{params[:title]}%")
+      end
+      if params[:tag_ids].present?
+        stories = stories.joins(:story_tags).where("story_tags.tag_id in (:tag_ids)", tag_ids: params[:tag_ids].split(','))
+      end
+    end
+   
     render json: stories
-  end
-
-  def search
-  	stories = Story
-  	if params[:title].present?
-  		stories = stories.where("title LIKE :query", query: "%#{params[:title]}%")
-  	end
-  	if params[:tag_ids].present?
-  		stories = stories.joins(:story_tags).where("story_tags.tag_id in (:tag_ids)", tag_ids: params[:tag_ids].split(','))
-  	end
-	  render json: stories
   end
 
   def create
