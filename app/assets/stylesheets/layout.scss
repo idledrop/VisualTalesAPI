@@ -2,4 +2,11 @@
 
 .primary-background{
   background-color: $brand-primary;
+  color:white;
+}
+
+.form-control{
+  border:none;
+  -webkit-box-shadow:none;
+  box-shadow: none;
 }

@@ -4,6 +4,4 @@
   <a *ngIf="title" class="button">Create Story</a>
 </form>
 <div class="alert alert-danger" *ngIf="error">{{error}}</div>
-<ul>
-  <li *ngFor="#story of shownStories | async">{{story.title}}</li>
-</ul>
+<image-panel-list [list]="stories" [options]="{panelsPerLine:4}" [panelClick]="selectStory"></image-panel-list>
