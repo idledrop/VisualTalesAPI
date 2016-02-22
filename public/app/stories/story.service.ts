@@ -1,59 +1,47 @@
 import {Injectable} from 'angular2/core';
-import {Http, URLSearchParams} from 'angular2/http';
 
 import {Observable} from 'rxjs/Observable';
 
+import {VisualTalesHttpService} from '../data/data';
+
 @Injectable()
 export class StoryService {
-  private _storiesUrl:string = 'api/stories';
-  
-  constructor(private _http:Http) { }
-
-  getStory(id:number){
-    return this._http.get(this._storiesUrl + '/' + id)
-                .map(res => <IStory> res.json())
-                .catch(this.logError);
+  constructor(private _visualTalesHttp:VisualTalesHttpService<IStory>){ 
+    this._visualTalesHttp.setUrl('stories');
   }
 
-  getStories(searchParams:Object){
-    let params:URLSearchParams = this.getStoryParams(searchParams);
-      
-    return this._http.get(this._storiesUrl, {search:params})
-               .map(res => <IStory[]> res.json())
-               .catch(this.logError);    
+  getStory(id:number):Observable<IStory>{
+    return this._visualTalesHttp.get(id);
+  }
+
+  getStories(searchParams:any):Observable<IStory[]>{
+    let params:any = this.getStoryParams(searchParams);
+    return this._visualTalesHttp.getAll(params); 
   }
   
-  private getStoryParams({title='', tag_ids=[], page=1, page_size=20}):URLSearchParams{
-    let searchParams:URLSearchParams = new URLSearchParams();
+  private getStoryParams({title='', tag_ids=[], page=1, page_size=20}):any{
+    let params:any = {};
+    
     if(title.length > 0){
-      searchParams.set('title', title);
+      params.title = title;
     }
         
     if(tag_ids.length > 0){
-      searchParams.set('tag_ids', tag_ids.join(','));    
+      params.tagIds = tag_ids.join(',');    
     }
     
-    searchParams.set('page', page.toString());
-    searchParams.set('page_size', page_size.toString());
+    params.page = page.toString();
+    params.page_size = page_size.toString();
     
-    return searchParams;
+    return params;
   }
   
   createStory(story:IStory){
-      return this._http.post(this._storiesUrl, JSON.stringify(story))
-                 .map(res => <IStory> res.json())
-                 .catch(this.logError);
+      return this._visualTalesHttp.create(story);
   }
   
   updateStory(story:IStory){
-      return this._http.put(this._storiesUrl + '/' + story.id, JSON.stringify(story))
-                 .map(res => <IStory> res.json())
-                 .catch(this.logError);
-  }
-   
-  private logError(error: Error){
-    console.log(error);
-    return Observable.throw(error);
+      return this._visualTalesHttp.update(story);
   }
 }
 

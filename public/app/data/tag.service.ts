@@ -1,34 +1,26 @@
 import {Injectable} from 'angular2/core';
-import {Http, URLSearchParams} from 'angular2/http';
 import {Observable} from 'rxjs/Observable';
+
+import {VisualTalesHttpService} from './data';
 
 @Injectable()
 export class TagService {
-  private _tagsUrl:string = 'api/tags'; 
-  
-  constructor(private _http:Http) { }
+  constructor(private _visualTalesHttp:VisualTalesHttpService<ITag>) {
+    this._visualTalesHttp.setUrl('tags');
+  }
 
-  getTags(tagName=''){
-    let params:URLSearchParams = new URLSearchParams();
+  getTags(tagName=''):Observable<ITag[]>{
+    let params:any = {};
     
-    if(tagName.length == 0){
-      params.set('query', tagName);
+    if(tagName.length > 0){
+      params.query = tagName;
     }
     
-    return this._http.get(this._tagsUrl, {search:params})
-               .map(res => <ITag[]> res.json())
-               .catch(this.logError);
+    return this._visualTalesHttp.getAll(params);
   }
   
   createTag(tag:ITag){
-    return this._http.post(this._tagsUrl, JSON.stringify(tag))
-               .map(res => <ITag> res.json())
-               .catch(this.logError);
-  }
-  
-  private logError(error: Error){
-    console.log(error);
-    return Observable.throw(error);
+    return this._visualTalesHttp.create(tag);
   }
 }
 
