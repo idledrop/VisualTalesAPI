@@ -41,7 +41,7 @@ export class VisualTalesHttpService<T> {
   private getAllForUrl<A>(url:string, params?:any):Observable<A[]>{
     let urlParams:URLSearchParams = this.getUrlParams(params);    
     
-    return this._http.get(this._url, {search:urlParams})
+    return this._http.get(url, {search:urlParams})
                .map(res => <A[]> res.json())
                .catch(this.logError);
   }

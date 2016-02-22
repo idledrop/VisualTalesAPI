@@ -1,7 +1,7 @@
 <div class="row">
   <div *ngFor="#listItem of list" [ngClass]="panelClass">
     <div class="panel panel-default" (click)="selectItem(listItem)">
-      <div class="panel-body" *ngIf="listItem[imageUrl]">
+      <div *ngIf="listItem[imageUrl]" class="panel-body">
         <img [alt]="listItem[panelTitle]" [src]="listItem[imageUrl]">
       </div>
       <h3 *ngIf="!listItem[imageUrl]" class="panel-body text-center">No Image</h3>

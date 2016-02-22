@@ -14,7 +14,7 @@ import {SceneEditorComponent} from '../scenes/scenes';
 @RouteConfig([
   {path:'/stories', name:'Stories', component:StoriesComponent, useAsDefault:true},
   {path:'/stories/:id', name:'StoryEditor', component:StoryEditorComponent},
-  {path:'/scene/:sceneId', name:'SceneEditor', component:SceneEditorComponent}
+  {path:'/scene/:id', name:'SceneEditor', component:SceneEditorComponent}
 ])
 
 export class HomeComponent {

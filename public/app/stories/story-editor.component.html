@@ -1,13 +1,22 @@
-<form *ngIf="story">
-  <div class="form-group">
-    <label for="storyTitle">Title</label>
-    <input [(ngModel)]="story.title"
- type="text" class="form-control" id="storyTitle" placeholder="Story title">
-  </div>
-  <div class="form-group">
-    <label for="storyDescription">Description</label>
-    <input [(ngModel)]="story.description"
- type="text" class="form-control" id="storyDescription" placeholder="Story description">
-  </div>
-  <button type="submit" class="btn btn-default" (click)="update()">Save</button>
-</form>
+<div *ngIf="story">
+  <form>
+    <div class="form-group">
+      <label for="storyTitle">Title</label>
+      <input [(ngModel)]="story.title"
+  type="text" class="form-control" id="storyTitle" placeholder="Story title">
+    </div>
+    <div class="form-group">
+      <label for="storyDescription">Description</label>
+      <input [(ngModel)]="story.description"
+  type="text" class="form-control" id="storyDescription" placeholder="Story description">
+    </div>
+  </form>
+  <h2>Characters</h2>
+  <image-panel-list [list]="characters" [options]="{panelsPerLine:5, panelTitle:'name'}"></image-panel-list>
+
+  <h2>Scenes</h2>
+  <image-panel-list [list]="scenes" [options]="{panelsPerLine:4, panelTitle:'name'}" [panelClick]="selectScene"></image-panel-list>
+  
+  <button type="submit" class="right btn btn-primary btn-raised" (click)="update()">Save</button>
+</div>
+

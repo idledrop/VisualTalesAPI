@@ -1,3 +1,8 @@
+#wrapper{
+  min-height: 100%;
+  margin-bottom:-3.4em;
+}
+
 header{
   overflow:hidden;
   
@@ -8,10 +13,8 @@ header{
 
 footer{
   color:white;
-  position:absolute;
-  bottom:0;
   
   div{
-    padding:0.5em 0;
+    padding:1em 0;
   }
 }

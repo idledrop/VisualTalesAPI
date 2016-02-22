@@ -1,11 +1,19 @@
 @import 'custom-material-variables';
 
+html{
+  height:100%;
+}
+
+body{
+  height:100%;
+}
+
 .primary-background{
   background-color: $brand-primary;
   color:white;
 }
 
-.form-control{
+.form-control:focus{
   border:none;
   -webkit-box-shadow:none;
   box-shadow: none;

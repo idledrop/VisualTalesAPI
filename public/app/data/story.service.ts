@@ -50,7 +50,7 @@ export class StoryService {
   }
   
   getCharactersForStory(id:number):Observable<ICharacter[]>{
-    return this._visualTalesHttp.getChildren<ICharacter>(id, 'stories');
+    return this._visualTalesHttp.getChildren<ICharacter>(id, 'characters');
   }
   
   
