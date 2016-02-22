@@ -5,7 +5,7 @@ import {Router} from 'angular2/router';
 import {Observable} from 'rxjs/Observable';
 import {Subject} from 'rxjs/Subject';
 
-import {StoryService, IStory} from './stories';
+import {StoryService, IStory} from '../data/data';
 import {ImagePanelListComponent} from '../components/image-panel-list.component';
 
 @Component({

@@ -17,16 +17,32 @@ export class VisualTalesHttpService<T> {
   }
   
   get(id:number):Observable<T>{
-    return this._http.get(this._url + '/' + id)
-                .map(res => <T> res.json())
+    return this.getForUrl<T>(`${this._url}/${id}`);
+  }
+  
+  getChild<C>(id:number, childPath:string, childId:number):Observable<C>{
+    return this.getForUrl<C>(`${this._url}/${id}/${childPath}/${childId}`);
+  }
+  
+  private getForUrl<A>(url:string):Observable<A>{
+    return this._http.get(url)
+                .map(res => <A> res.json())
                 .catch(this.logError);
   }
   
-  getAll(params:any):Observable<T[]>{
+  getAll(params?:any):Observable<T[]>{
+    return this.getAllForUrl<T>(this._url, params);
+  }
+  
+  getChildren<C>(id:number, childPath:string, params?:any):Observable<C[]>{
+    return this.getAllForUrl<C>(`${this._url}/${id}/${childPath}`, params);
+  }
+  
+  private getAllForUrl<A>(url:string, params?:any):Observable<A[]>{
     let urlParams:URLSearchParams = this.getUrlParams(params);    
     
     return this._http.get(this._url, {search:urlParams})
-               .map(res => <T[]> res.json())
+               .map(res => <A[]> res.json())
                .catch(this.logError);
   }
   
@@ -45,22 +61,48 @@ export class VisualTalesHttpService<T> {
   }
   
   update(payload:any):Observable<T>{
+    return this.updateForUrl<T>(`${this._url}/${payload.id}`, payload);
+  }
+  
+  updateChild<C>(id:number, childPath:string, payload:any):Observable<C>{
+    return this.updateForUrl<C>(`${this._url}/${id}/${childPath}/${payload.id}`, payload);
+  }
+  
+  private updateForUrl<A>(url:string, payload:any):Observable<A>{
     return this._http.put(
-              this._url + '/' + payload.id, 
+              url,
               JSON.stringify(payload), 
               {headers: this._putPostHeaders}
             )
-            .map(res => <T> res.json())
+            .map(res => <A> res.json())
             .catch(this.logError);
   }
   
   create(payload:any):Observable<T>{
+    return this.createForUrl<T>(this._url, payload);
+  }
+  
+  createChild<C>(id:number, childPath:string, payload:any):Observable<C>{
+    return this.createForUrl<C>(`${this._url}/${id}/${childPath}`, payload);
+  }
+  
+  private createForUrl<A>(url:string, payload:any):Observable<A>{
     return this._http.post(
-              this._url + '/' + payload.id,
+              url,
               JSON.stringify(payload),
               {headers: this._putPostHeaders}
            )
-           .map(res => <T> res.json())
+           .map(res => <A> res.json())
+           .catch(this.logError);
+  }
+  
+  delete(id:number):Observable<{}>{
+    return this.deleteForUrl(`${this._url}/${id}`);
+  }
+  
+  private deleteForUrl(url:string):any{
+    return this._http.delete(url)
+           .map(res => res.json())
            .catch(this.logError);
   }
   
