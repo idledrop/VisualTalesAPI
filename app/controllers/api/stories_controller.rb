@@ -53,10 +53,21 @@ class Api::StoriesController < ApiController
   def show
     story = Story.find_by_id(params[:id])
     if story
-      render json: story.to_json
+      render json: expanded_json(story)
     else
       head 404
     end
+  end
+
+  private
+
+  def expanded_json(events)
+    events.as_json(
+        except: [:updated_at],
+        include: { tags: { only: [:id, :name]
+        }
+        }
+    )
   end
 
 end
