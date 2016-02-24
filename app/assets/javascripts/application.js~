@@ -11,4 +11,12 @@
 // about supported directives.
 //
 //= require turbolinks
+//= require es6-shim/es6-shim.min
+//= require systemjs/dist/system-polyfills
+//= require angular2/bundles/angular2-polyfills
+//= require systemjs/dist/system.src
+//= require rxjs/bundles/Rx
+//= require angular2/bundles/angular2.dev
+//= require angular2/bundles/router.dev
+//= require angular2/bundles/http.dev
 //= require_tree .
