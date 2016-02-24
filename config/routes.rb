@@ -22,6 +22,7 @@ Rails.application.routes.draw do
       resources :events, only: [:index, :create]
     end
     resources :events, only: [:update, :destroy]
+    post 'auth' => 'auth#authenticate'
   end
 
 

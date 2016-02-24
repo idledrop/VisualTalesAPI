@@ -57,3 +57,5 @@ house.events.create(pose:guy_scared, position_x: 20, position_y: 20, script: '(l
 
 bar.events.create(pose:girl_happy, position_x: 20, position_y: 20, script: 'I love drunk', order: 1)
 bar.events.create(pose:guy_happy, position_x: 20, position_y: 20, script: 'Ahhh! I absolutely love her.', order: 2)
+
+User.create({email: 'guest@guest.com', password: 'password'})

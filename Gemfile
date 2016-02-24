@@ -64,5 +64,5 @@ end
 
 gem 'carrierwave'
 gem 'mini_magick'
-gem 'html_routes', '~> 1.0', group: :development
+gem 'ruby-jwt'
 
