@@ -1,9 +1,11 @@
-class AuthController < ApplicationController
+require 'auth_token'
+
+class Api::AuthController < ApplicationController
   def authenticate
     # You'll need to implement the below method. It should return the
     # user instance if the username and password are valid.
     # Otherwise return nil.
-    user = User.find_by_credentials(params[:username], params[:password])
+    user = User.where({email: params[:email], password: params[:password]}).first
     if user
       render json: authentication_payload(user)
     else
@@ -14,10 +16,11 @@ class AuthController < ApplicationController
   private
 
   def authentication_payload(user)
+
     return nil unless user && user.id
     {
-        auth_token: AuthToken.encode({ user_id: id }),
-        user: { id: user.id, username: user.username } # return whatever user info you need
+        auth_token: AuthToken.encode({ user_id: user.id }),
+        user: { id: user.id, email: user.email }
     }
   end
 end

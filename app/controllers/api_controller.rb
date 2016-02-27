@@ -15,6 +15,8 @@ class ApiController < ActionController::Base
   rescue_from AuthenticationTimeoutError, with: :authentication_timeout
   rescue_from NotAuthenticatedError, with: :user_not_authenticated
 
+  before_action :authenticate_request!
+
   protected
 
   # This method gets the current user based on the user_id included
@@ -49,7 +51,6 @@ class ApiController < ActionController::Base
   # Bearer somerandomstring.encoded-payload.anotherrandomstring
   def http_auth_token
     @http_auth_token ||= if request.headers['Authorization'].present?
-                           binding.pry
                            request.headers['Authorization'].split(' ').last
                          end
   end
