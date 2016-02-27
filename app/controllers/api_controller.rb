@@ -49,6 +49,7 @@ class ApiController < ActionController::Base
   # Bearer somerandomstring.encoded-payload.anotherrandomstring
   def http_auth_token
     @http_auth_token ||= if request.headers['Authorization'].present?
+                           binding.pry
                            request.headers['Authorization'].split(' ').last
                          end
   end

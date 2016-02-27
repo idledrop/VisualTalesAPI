@@ -64,5 +64,5 @@ end
 
 gem 'carrierwave'
 gem 'mini_magick'
-gem 'ruby-jwt'
+gem 'jwt'
 
