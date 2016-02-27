@@ -33,5 +33,9 @@ module Visualtales
                        :request_specs => true
       g.fixture_replacement :factory_girl, :dir => "spec/factories"
     end
+    config.action_dispatch.default_headers = {
+        'Access-Control-Allow-Origin' => '*',
+        'Access-Control-Request-Method' => %w{GET POST PUT DELETE OPTIONS}.join(",")
+    }
   end
 end
