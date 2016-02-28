@@ -30,16 +30,5 @@ $ mysql_secure_installation
  - Set the root password to 1234
 $ rake db:setup
 
-## Application Setup
-npm install
-npm install gulp
-
 ## Starting the application
-rails server  
-gulp
-
-## Page and NPM errors
-If you run into problems with the views or npm install do this
-$ rm -fr node_modules
-$ npm cache clear
-$ npm install
+rails server
