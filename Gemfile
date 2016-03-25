@@ -66,3 +66,4 @@ gem 'carrierwave'
 gem 'mini_magick'
 gem 'jwt'
 
+gem 'tzinfo-data', platforms: [:mingw, :mswin]
