@@ -50,8 +50,8 @@ class ApiController < ActionController::Base
   # JWT's are stored in the Authorization header using this format:
   # Bearer somerandomstring.encoded-payload.anotherrandomstring
   def http_auth_token
-    @http_auth_token ||= if request.headers['Authorization'].present?
-                           request.headers['Authorization'].split(' ').last
+    @http_auth_token ||= if request.headers['X-Authorization'].present?
+                           request.headers['X-Authorization'].split(' ').last
                          end
   end
 

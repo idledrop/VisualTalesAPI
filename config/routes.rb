@@ -3,8 +3,8 @@ Rails.application.routes.draw do
   # See how all your routes lay out with "rake routes".
 
   # You can have the root of your site routed with "root"
-   root 'home#index'
-
+  match '*all' => 'application#nothing', via: [:options]
+  
   namespace :api do
     resources :stories, except: [:new, :edit] do
       resources :tags, only: [:create, :index, :delete]
@@ -24,9 +24,6 @@ Rails.application.routes.draw do
     resources :events, only: [:update, :destroy]
     post 'auth' => 'auth#authenticate'
   end
-
-
-   get '*path' => 'home#index'
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
