@@ -5,8 +5,7 @@ source 'https://rubygems.org'
 gem 'rails', '4.2.5.1'
 # Use sqlite3 as the database for Active Record
 gem 'sqlite3'
-# Mysql
-gem 'mysql2'
+
 # For bulk insert
 gem 'activerecord-import'
 # Use SCSS for stylesheets
@@ -36,6 +35,11 @@ gem 'kaminari'
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 
+group :production do
+  # Mysql
+  gem 'mysql2'
+end
+
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug'
@@ -58,8 +62,7 @@ group :development do
   gem 'spring'
 end
 
-gem 'rack-cors', :require => 'rack/cors'
 gem 'carrierwave'
 gem 'mini_magick'
-gem 'html_routes', '~> 1.0', group: :development
+gem 'jwt'
 

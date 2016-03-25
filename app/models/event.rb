@@ -4,6 +4,6 @@ class Event < ActiveRecord::Base
 
   validates :position_x, presence: true, numericality: true
   validates :position_y, presence: true, numericality: true
-  validates_related :scene
+  validates_associated :scene
   validates :order, numericality: true
 end
